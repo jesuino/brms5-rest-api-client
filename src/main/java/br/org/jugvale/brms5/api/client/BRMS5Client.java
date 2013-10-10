@@ -3,23 +3,12 @@ package br.org.jugvale.brms5.api.client;
 import java.util.List;
 
 import br.org.jugvale.brms5.api.client.model.Asset;
+import br.org.jugvale.brms5.api.client.model.Category;
 
-public class BRMS5Client {
-	
-	private String baseUrl, username, password;
-	
-	public BRMS5Client(String baseUrl, String username, String password){
-		this.baseUrl = baseUrl; this.username = username; this.password = password;
-	} 
-	
-	public List<Package> getPackages(){		
-		return null;
-	}
-	
-	public List<Asset> getAssetsByPackage(Package brmsPackage){
-		return null;
-	}
-	
-	
-	
+public interface BRMS5Client {
+
+	public List<Package> getPackages();	
+	public List<Category> getCategories();
+	public List<Asset> getAssetsByPackage(Package brmsPackage);
+	public List<Asset> getAssetsByCategory(Category brmsPackage);
 }
