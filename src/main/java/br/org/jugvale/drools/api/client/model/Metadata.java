@@ -2,6 +2,9 @@ package br.org.jugvale.drools.api.client.model;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Metadata {
 
 	private boolean achived;

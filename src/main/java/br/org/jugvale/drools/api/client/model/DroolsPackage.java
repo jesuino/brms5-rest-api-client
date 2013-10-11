@@ -2,6 +2,11 @@ package br.org.jugvale.drools.api.client.model;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+
+@XmlRootElement(name="package")
 public class DroolsPackage {
 	private List<String> assets;
 	private String checkInComment;
@@ -65,5 +70,10 @@ public class DroolsPackage {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	@Override
+	public String toString() {		
+		return ToStringBuilder.reflectionToString(this);
 	}
 }
