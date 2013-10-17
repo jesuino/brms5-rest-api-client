@@ -8,7 +8,8 @@ import br.org.jugvale.drools.api.client.model.DroolsPackage;
 
 public interface DroolsAPIService {
 
-	public List<DroolsPackage> getPackages();	
+	public List<DroolsPackage> getPackages();
+	public DroolsPackage getPackage(String name);	
 	public List<Category> getCategories();
 	public List<Asset> getAssetsByPackage(Package brmsPackage);
 	public List<Asset> getAssetsByCategory(Category brmsPackage);

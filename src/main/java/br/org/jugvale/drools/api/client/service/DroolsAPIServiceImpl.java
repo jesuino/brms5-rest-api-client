@@ -22,12 +22,14 @@ import br.org.jugvale.drools.api.client.model.DroolsPackage;
  * 
  */
 public class DroolsAPIServiceImpl implements DroolsAPIService {
+	// TODO: use logging
+	
 	ResteasyClient client;
 
-	private final String MEDIA_TYPE = MediaType.APPLICATION_XML;
+	private final String MEDIA_TYPE = MediaType.APPLICATION_XML;	
 	
 	private final String REST_CONTEXT = "rest";		
-	private final String PACKAGES_URL = "packages";
+	private final String PACKAGES_URI = "packages";
 	
 	private String baseUrl;
 
@@ -39,12 +41,20 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	}
 
 	public List<DroolsPackage> getPackages() {
-		// TODO: use logging
-		System.out.println("Retrieving package from: "+ getCompleteUrl(PACKAGES_URL));		
+		String url = getCompleteUrl(PACKAGES_URI);
+		System.out.printf("Retrieving packages from %s\n", url);		
 		return client
-				.target(getCompleteUrl(PACKAGES_URL))
-				.request(MEDIA_TYPE)
+				.target(url)
+				.request(MEDIA_TYPE)				
 				.get(new GenericType<List<DroolsPackage>>(){});		
+	}
+	public DroolsPackage getPackage(String name) {
+		String url = getCompleteUrl(PACKAGES_URI, name);
+		System.out.printf("Retrieving package from %s1\n", url);		
+		return client
+				.target(url)
+				.request(MEDIA_TYPE)
+				.get(DroolsPackage.class);			
 	}
 
 	public List<Category> getCategories() {
@@ -84,5 +94,6 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		}
 		return finalUri.build().toString();		
 	}
+
 
 }

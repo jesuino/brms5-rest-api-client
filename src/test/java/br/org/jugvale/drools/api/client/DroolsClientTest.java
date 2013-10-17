@@ -28,4 +28,10 @@ public class DroolsClientTest {
 			System.out.println(droolsPackage.getDescription());	
 		}
 	}
+	
+	@Test
+	public void testPackage(){
+		DroolsPackage pkg = client.getPackage("mortgages");
+		System.out.println(pkg);	
+	}
 }

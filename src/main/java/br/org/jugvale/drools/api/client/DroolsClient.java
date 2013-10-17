@@ -14,6 +14,11 @@ import br.org.jugvale.drools.api.client.model.DroolsPackage;
 import br.org.jugvale.drools.api.client.service.DroolsAPIService;
 import br.org.jugvale.drools.api.client.service.DroolsAPIServiceImpl;
 
+/**
+ * Boilerplate class for the real client. Here we will include validation, authentication and a few more stuff
+ * @author william
+ *
+ */
 public class DroolsClient{
 	
 	private String username, password, baseUrl;	
@@ -62,6 +67,11 @@ public class DroolsClient{
 	public List<Asset> getAssetsByCategory(Category brmsPackage){
 		return null;
 	}
+	
+	public DroolsPackage getPackage(String name) {		
+		return service.getPackage(name);
+	}
+	
 	private void createDroolsAPIService() {
 		Credentials credentials = new UsernamePasswordCredentials(username, password);
 		DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -69,4 +79,5 @@ public class DroolsClient{
 		httpClient.getCredentialsProvider().setCredentials(new AuthScope("localhost", 8080), credentials);
 		service  = new DroolsAPIServiceImpl(baseUrl, new ApacheHttpClient4Engine(httpClient));		
 	}
+
 }
