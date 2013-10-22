@@ -57,7 +57,11 @@ public class DroolsClient{
 
 	public List<Category> getCategories(){		
 		return getCategories(false);
-	}	
+	}
+	
+	public Category getCategory(String name){
+		return service.getCategory(name);
+	}
 	
 	// TODO caching of assets
 	public List<Asset> getAssetsByPackage(Package brmsPackage){

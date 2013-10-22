@@ -51,7 +51,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	}
 	public DroolsPackage getPackage(String name) {
 		String url = getCompleteUrl(PACKAGES_URI, name);
-		System.out.printf("Retrieving package from %s1\n", url);		
+		System.out.printf("Retrieving package from %s\n", url);		
 		return client
 				.target(url)
 				.request(MEDIA_TYPE)
@@ -60,13 +60,21 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 
 	public List<Category> getCategories() {
 		String url = getCompleteUrl(CATEGORIES_URI);
-		System.out.printf("Retrieving categories from %s1\n", url);			
+		System.out.printf("Retrieving categories from %s\n", url);			
 		return client
 				.target(url)
 				.request(MEDIA_TYPE)				
 				.get(new GenericType<List<Category>>(){});
 	}
 
+	public Category getCategory(String name) {
+		String url = getCompleteUrl(CATEGORIES_URI, name);
+		System.out.printf("Retrieving category from %s\n", url);		
+		return client
+				.target(url)
+				.request(MEDIA_TYPE)
+				.get(Category.class);		
+	}
 	public List<Asset> getAssetsByPackage(Package brmsPackage) {
 		// TODO Auto-generated method stub
 		return null;
@@ -99,6 +107,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		}
 		return finalUri.build().toString();		
 	}
+
 
 
 }

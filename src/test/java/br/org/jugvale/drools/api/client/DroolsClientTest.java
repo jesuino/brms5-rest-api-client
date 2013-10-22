@@ -26,6 +26,12 @@ public class DroolsClientTest {
 	}
 	
 	@Test
+	public void testCategory(){
+		Category cat = client.getCategory("Home Mortgage");
+		System.out.println(cat);	
+	}
+	
+	@Test
 	public void testPackages() {
 		List<DroolsPackage> packages = client.getPackages();	
 		System.out.println("Available Packages: \n");		

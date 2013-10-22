@@ -11,6 +11,7 @@ public interface DroolsAPIService {
 	public List<DroolsPackage> getPackages();
 	public DroolsPackage getPackage(String name);	
 	public List<Category> getCategories();
+	public Category getCategory(String name);
 	public List<Asset> getAssetsByPackage(Package brmsPackage);
 	public List<Asset> getAssetsByCategory(Category brmsPackage);
 	
