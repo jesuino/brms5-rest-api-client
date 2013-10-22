@@ -30,6 +30,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	
 	private final String REST_CONTEXT = "rest";		
 	private final String PACKAGES_URI = "packages";
+	private final String CATEGORIES_URI = "categories";
 	
 	private String baseUrl;
 
@@ -58,8 +59,12 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	}
 
 	public List<Category> getCategories() {
-		// TODO Auto-generated method stub
-		return null;
+		String url = getCompleteUrl(CATEGORIES_URI);
+		System.out.printf("Retrieving categories from %s1\n", url);			
+		return client
+				.target(url)
+				.request(MEDIA_TYPE)				
+				.get(new GenericType<List<Category>>(){});
 	}
 
 	public List<Asset> getAssetsByPackage(Package brmsPackage) {
