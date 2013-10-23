@@ -12,8 +12,8 @@ public interface DroolsAPIService {
 	public DroolsPackage getPackage(String name);	
 	public List<Category> getCategories();
 	public Category getCategory(String name);
-	public List<Asset> getAssetsByPackage(Package brmsPackage);
-	public List<Asset> getAssetsByCategory(Category brmsPackage);
+	public List<Asset> getAssetsByPackage(DroolsPackage droolsPackage);
+	public List<Asset> getAssetsByCategory(Category category);
 	
 	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage);
 	public Category createOrUpdate(Category category);

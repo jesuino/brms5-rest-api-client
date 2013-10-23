@@ -64,12 +64,22 @@ public class DroolsClient{
 	}
 	
 	// TODO caching of assets
-	public List<Asset> getAssetsByPackage(Package brmsPackage){
-		return null;
+	public List<Asset> getAssetsByPackage(String droolsPackageTitle){
+		DroolsPackage pkg = service.getPackage(droolsPackageTitle);		
+		return getAssetsByPackage(pkg);
 	}
 	
-	public List<Asset> getAssetsByCategory(Category brmsPackage){
-		return null;
+	public List<Asset> getAssetsByPackage(DroolsPackage droolsPackage){
+		return service.getAssetsByPackage(droolsPackage);
+	}
+	
+	public List<Asset> getAssetsByCategory(Category category){
+		return service.getAssetsByCategory(category);
+	}
+	
+	public List<Asset> getAssetsByCategory(String categoryName){
+		Category cat = service.getCategory(categoryName);		
+		return getAssetsByCategory(cat);
 	}
 	
 	public DroolsPackage getPackage(String name) {		
@@ -83,5 +93,4 @@ public class DroolsClient{
 		httpClient.getCredentialsProvider().setCredentials(new AuthScope("localhost", 8080), credentials);
 		service  = new DroolsAPIServiceImpl(baseUrl, new ApacheHttpClient4Engine(httpClient));		
 	}
-
 }

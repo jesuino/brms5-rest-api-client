@@ -1,5 +1,6 @@
 package br.org.jugvale.drools.api.client.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,7 +12,7 @@ public class DroolsPackage {
 	private List<String> assets;
 	private String checkInComment;
 	private String description;
-	private Metadata metadata;
+	private PackageMetadata metadata;
 	private String sourceLink;
 	private String title;
 	private int version;
@@ -40,11 +41,11 @@ public class DroolsPackage {
 		this.description = description;
 	}
 
-	public Metadata getMetadata() {
+	public PackageMetadata getMetadata() {
 		return metadata;
 	}
 
-	public void setMetadata(Metadata metadata) {
+	public void setMetadata(PackageMetadata metadata) {
 		this.metadata = metadata;
 	}
 
@@ -75,5 +76,52 @@ public class DroolsPackage {
 	@Override
 	public String toString() {		
 		return ToStringBuilder.reflectionToString(this);
+	}
+	
+	@XmlRootElement(name="metadata")
+	public static class PackageMetadata {
+
+		private boolean achived;
+		private Date created;
+		private Date lastModified;
+		private String lastContributor;	
+		private String uuid;
+		private String state;
+		public boolean isAchived() {
+			return achived;
+		}
+		public void setAchived(boolean achived) {
+			this.achived = achived;
+		}
+		public Date getCreated() {
+			return created;
+		}
+		public void setCreated(Date created) {
+			this.created = created;
+		}
+		public Date getLastModified() {
+			return lastModified;
+		}
+		public void setLastModified(Date lastModified) {
+			this.lastModified = lastModified;
+		}
+		public String getLastContributor() {
+			return lastContributor;
+		}
+		public void setLastContributor(String lastContributor) {
+			this.lastContributor = lastContributor;
+		}
+		public String getUuid() {
+			return uuid;
+		}
+		public void setUuid(String uuid) {
+			this.uuid = uuid;
+		}
+		public String getState() {
+			return state;
+		}
+		public void setState(String state) {
+			this.state = state;
+		} 	
 	}
 }

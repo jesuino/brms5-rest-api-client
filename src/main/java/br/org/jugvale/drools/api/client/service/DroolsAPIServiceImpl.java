@@ -28,9 +28,11 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 
 	private final String MEDIA_TYPE = MediaType.APPLICATION_XML;	
 	
+	//TODO: change to URI templates?
 	private final String REST_CONTEXT = "rest";		
 	private final String PACKAGES_URI = "packages";
 	private final String CATEGORIES_URI = "categories";
+	private final String ASSETS_URI = "assets";
 	
 	private String baseUrl;
 
@@ -75,14 +77,25 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 				.request(MEDIA_TYPE)
 				.get(Category.class);		
 	}
-	public List<Asset> getAssetsByPackage(Package brmsPackage) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Asset> getAssetsByPackage(DroolsPackage droolsPackage) {
+		//TODO: check nulability?
+		String url = getCompleteUrl(PACKAGES_URI, droolsPackage.getTitle(),  ASSETS_URI);
+		System.out.printf("Retrieving assets for package %s, from uri %s\n",droolsPackage.getTitle(), url);			
+
+		return client
+				.target(url)
+				.request(MEDIA_TYPE)
+				.get(new GenericType<List<Asset>>(){});	
 	}
 
-	public List<Asset> getAssetsByCategory(Category brmsPackage) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Asset> getAssetsByCategory(Category droolsCategory) {
+		//TODO: check nulability?
+		String url = getCompleteUrl(CATEGORIES_URI, droolsCategory.getPath(),  ASSETS_URI);
+		System.out.printf("Retrieving assets for category \"%s\", from uri %s\n",droolsCategory.getPath(), url);
+		return client
+				.target(url)
+				.request(MEDIA_TYPE)
+				.get(new GenericType<List<Asset>>(){});	
 	}
 
 	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage) {
@@ -107,7 +120,5 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		}
 		return finalUri.build().toString();		
 	}
-
-
 
 }
