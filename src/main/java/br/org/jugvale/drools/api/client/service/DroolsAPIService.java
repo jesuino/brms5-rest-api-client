@@ -14,6 +14,7 @@ public interface DroolsAPIService {
 	public Category getCategory(String name);
 	public List<Asset> getAssetsByPackage(DroolsPackage droolsPackage);
 	public List<Asset> getAssetsByCategory(Category category);
+    public Asset getAsset(String packageName, String assetName);
 	
 	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage);
 	public Category createOrUpdate(Category category);

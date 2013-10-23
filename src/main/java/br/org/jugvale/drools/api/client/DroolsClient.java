@@ -82,6 +82,9 @@ public class DroolsClient{
 		return getAssetsByCategory(cat);
 	}
 	
+	public Asset getAsset(String pkgName, String assetName){
+		return service.getAsset(pkgName, assetName);
+	}
 	public DroolsPackage getPackage(String name) {		
 		return service.getPackage(name);
 	}

@@ -16,6 +16,7 @@ public class DroolsClientTest {
 	// re-usable constants
 	private final String PKG_TITLE = "mortgages";
 	private final String CAT_PATH = "Home Mortgage/Test scenarios";
+	private final String ASSET_NAME = "drools";
 
 	@Before
 	public void setStuff() {
@@ -61,13 +62,21 @@ public class DroolsClientTest {
 			System.out.println(cat);
 		}
 		System.out.println("---------------------------");
+	}
+
+	@Test
+	public void testAsset() {
+		Asset asset = client.getAsset(PKG_TITLE, ASSET_NAME);
+		System.out.printf("Asset \"%s\":\n--\n", ASSET_NAME);
+		System.out.println(asset);
+		System.out.println("---------------------------");
 
 	}
 
 	@Test
 	public void testAssetsByPackage() {
 		List<Asset> assets = client.getAssetsByPackage(PKG_TITLE);
-		System.out.printf("Assets for package \"%s\":\n--", PKG_TITLE);
+		System.out.printf("Assets for package \"%s\":\n--\n", PKG_TITLE);
 		for (Asset asset : assets) {
 			System.out.println(asset);
 		}
@@ -78,7 +87,7 @@ public class DroolsClientTest {
 	@Test
 	public void testAssetsByCategory() {
 		List<Asset> assets = client.getAssetsByCategory(CAT_PATH);
-		System.out.printf("Assets for category \"%s\":\n--", CAT_PATH);
+		System.out.printf("Assets for category \"%s\":\n--\n", CAT_PATH);
 		for (Asset asset : assets) {
 			System.out.println(asset);
 		}

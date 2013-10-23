@@ -98,6 +98,14 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 				.get(new GenericType<List<Asset>>(){});	
 	}
 
+	public Asset getAsset(String packageName, String assetName) {
+		String url = getCompleteUrl(PACKAGES_URI, packageName,  ASSETS_URI, assetName);
+				System.out.printf("Retrieving asset \"%s\" of package \"%s\", from uri %s\n",assetName, packageName, url);
+				return client
+						.target(url)
+						.request(MEDIA_TYPE)
+						.get(Asset.class);
+	}
 	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage) {
 		// TODO Auto-generated method stub
 		return null;
@@ -120,5 +128,6 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		}
 		return finalUri.build().toString();		
 	}
+
 
 }
