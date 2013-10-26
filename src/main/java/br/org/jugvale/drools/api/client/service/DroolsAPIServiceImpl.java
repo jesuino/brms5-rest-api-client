@@ -34,6 +34,10 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	private final String CATEGORIES_URI = "categories";
 	private final String ASSETS_URI = "assets";
 	
+	// TODO: can we simplify the final URLs?
+	private final String CATEGORIES_URL = getCompleteUrl(CATEGORIES_URI);
+	private final String PACKAGES_URL = getCompleteUrl(PACKAGES_URI);
+	
 	private String baseUrl;
 
 	public DroolsAPIServiceImpl(String baseUrl,
@@ -44,10 +48,9 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	}
 
 	public List<DroolsPackage> getPackages() {
-		String url = getCompleteUrl(PACKAGES_URI);
-		System.out.printf("Retrieving packages from %s\n", url);		
+		System.out.printf("Retrieving packages from %s\n", PACKAGES_URL);		
 		return client
-				.target(url)
+				.target(PACKAGES_URL)
 				.request(MEDIA_TYPE)				
 				.get(new GenericType<List<DroolsPackage>>(){});		
 	}
@@ -61,10 +64,9 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	}
 
 	public List<Category> getCategories() {
-		String url = getCompleteUrl(CATEGORIES_URI);
-		System.out.printf("Retrieving categories from %s\n", url);			
+		System.out.printf("Retrieving categories from %s\n", PACKAGES_URL);			
 		return client
-				.target(url)
+				.target(PACKAGES_URL)
 				.request(MEDIA_TYPE)				
 				.get(new GenericType<List<Category>>(){});
 	}
