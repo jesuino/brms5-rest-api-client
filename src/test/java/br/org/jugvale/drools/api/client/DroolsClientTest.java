@@ -2,6 +2,7 @@ package br.org.jugvale.drools.api.client;
 
 import java.util.List;
 
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -70,7 +71,6 @@ public class DroolsClientTest {
 		System.out.printf("Asset \"%s\":\n--\n", ASSET_NAME);
 		System.out.println(asset);
 		System.out.println("---------------------------");
-
 	}
 
 	@Test
@@ -91,5 +91,23 @@ public class DroolsClientTest {
 		for (Asset asset : assets) {
 			System.out.println(asset);
 		}
+	}
+	
+	@Test
+	public void testPackageManipulation(){
+		System.out.println("----- Adding and updating a package -----");
+		String title = "my_test_package";
+		String newDesc = "Just testing packages adition";
+		String updatedDesc = "Updated description";
+		DroolsPackage pkg = new DroolsPackage();
+		pkg.setTitle(title);
+		pkg.setDescription(newDesc);
+		DroolsPackage newPkg = client.createOrUpdate(pkg);
+		assertEquals(title, newPkg.getTitle());
+		newPkg.setDescription(updatedDesc);
+		DroolsPackage updatedPkg = client.createOrUpdate(newPkg);
+		assertEquals(updatedDesc, updatedPkg.getDescription());
+		
+		// TODO delete package after this test
 	}
 }

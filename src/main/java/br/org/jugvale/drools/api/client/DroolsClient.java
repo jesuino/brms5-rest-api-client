@@ -85,8 +85,13 @@ public class DroolsClient{
 	public Asset getAsset(String pkgName, String assetName){
 		return service.getAsset(pkgName, assetName);
 	}
+	
 	public DroolsPackage getPackage(String name) {		
 		return service.getPackage(name);
+	}
+	
+	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage) {
+		return service.createOrUpdate(droolsPackage);
 	}
 	
 	private void createDroolsAPIService() {

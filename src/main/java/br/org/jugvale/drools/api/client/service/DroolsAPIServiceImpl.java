@@ -2,8 +2,10 @@ package br.org.jugvale.drools.api.client.service;
 
 import java.util.List;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.jboss.resteasy.client.jaxrs.ClientHttpEngine;
@@ -23,7 +25,7 @@ import br.org.jugvale.drools.api.client.model.DroolsPackage;
  */
 public class DroolsAPIServiceImpl implements DroolsAPIService {
 	// TODO: use logging
-	
+	// TODO: add error handling
 	ResteasyClient client;
 
 	private final String MEDIA_TYPE = MediaType.APPLICATION_XML;	
@@ -35,8 +37,8 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	private final String ASSETS_URI = "assets";
 	
 	// TODO: can we simplify the final URLs?
-	private final String CATEGORIES_URL = getCompleteUrl(CATEGORIES_URI);
-	private final String PACKAGES_URL = getCompleteUrl(PACKAGES_URI);
+	private final String CATEGORIES_URL;
+	private final String PACKAGES_URL;
 	
 	private String baseUrl;
 
@@ -45,6 +47,9 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		this.baseUrl = baseUrl;
 		client = new ResteasyClientBuilder().httpEngine(clientHttpEngine)
 				.build();
+		// initializing URL fields
+		 CATEGORIES_URL = getCompleteUrl(CATEGORIES_URI);
+		 PACKAGES_URL= getCompleteUrl(PACKAGES_URI);
 	}
 
 	public List<DroolsPackage> getPackages() {
@@ -57,16 +62,16 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	public DroolsPackage getPackage(String name) {
 		String url = getCompleteUrl(PACKAGES_URI, name);
 		System.out.printf("Retrieving package from %s\n", url);		
-		return client
+		Response r = client
 				.target(url)
-				.request(MEDIA_TYPE)
-				.get(DroolsPackage.class);			
+				.request(MEDIA_TYPE).buildGet().invoke();
+		return getEntityFromResponse(r, DroolsPackage.class);			
 	}
 
 	public List<Category> getCategories() {
-		System.out.printf("Retrieving categories from %s\n", PACKAGES_URL);			
+		System.out.printf("Retrieving categories from %s\n", CATEGORIES_URL);			
 		return client
-				.target(PACKAGES_URL)
+				.target(CATEGORIES_URL)
 				.request(MEDIA_TYPE)				
 				.get(new GenericType<List<Category>>(){});
 	}
@@ -82,8 +87,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	public List<Asset> getAssetsByPackage(DroolsPackage droolsPackage) {
 		//TODO: check nulability?
 		String url = getCompleteUrl(PACKAGES_URI, droolsPackage.getTitle(),  ASSETS_URI);
-		System.out.printf("Retrieving assets for package %s, from uri %s\n",droolsPackage.getTitle(), url);			
-
+		System.out.printf("Retrieving assets for package %s, from uri %s\n",droolsPackage.getTitle(), url);	
 		return client
 				.target(url)
 				.request(MEDIA_TYPE)
@@ -108,9 +112,29 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 						.request(MEDIA_TYPE)
 						.get(Asset.class);
 	}
+	
 	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage) {
-		// TODO Auto-generated method stub
-		return null;
+		DroolsPackage updatedPkg = null;
+		Entity<DroolsPackage> pkgEntity = Entity.xml(droolsPackage);
+		String pkgTitle = droolsPackage.getTitle();
+		if(getPackage(pkgTitle) != null){
+			System.out.println("Updating package "+ droolsPackage.getTitle());
+			Response r = client
+					.target(getCompleteUrl(PACKAGES_URI, pkgTitle))
+					.request(MEDIA_TYPE)
+					.put(pkgEntity);
+			// if updated, return newest version of the package
+			if(r.getStatus() == 204){
+				updatedPkg =  getPackage(pkgTitle);
+			}
+		}else{
+			System.out.println("Adding package "+ droolsPackage.getTitle());
+			updatedPkg = client
+					.target(PACKAGES_URL)
+					.request(MEDIA_TYPE)					
+					.post(pkgEntity).readEntity(DroolsPackage.class);
+		}
+		return updatedPkg;
 	}
 
 	public Category createOrUpdate(Category category) {
@@ -131,5 +155,21 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		return finalUri.build().toString();		
 	}
 
-
+	private <T> T getEntityFromResponse(Response r, Class<T> clazz){
+		int responseCode = r.getStatus();
+		T entity;
+		switch (responseCode) {
+			case 404:
+				entity =  null;
+				break;
+			case 200:
+				entity =  r.readEntity(clazz);	
+				break;
+			default:
+				// TODO: improve this exception
+				throw new RuntimeException();
+		}
+		r.close();
+		return entity;
+	}
 }
