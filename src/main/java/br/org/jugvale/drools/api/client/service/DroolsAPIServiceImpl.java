@@ -136,12 +136,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		}
 		return updatedPkg;
 	}
-
-	public Category createOrUpdate(Category category) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	public Asset createOrUpdate(Asset asset) {
 		// TODO Auto-generated method stub
 		return null;

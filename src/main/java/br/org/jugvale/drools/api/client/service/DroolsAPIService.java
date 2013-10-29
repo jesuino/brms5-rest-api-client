@@ -17,7 +17,6 @@ public interface DroolsAPIService {
     public Asset getAsset(String packageName, String assetName);
 	
 	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage);
-	public Category createOrUpdate(Category category);
 	public Asset createOrUpdate(Asset asset);
 	
 	// TODO: Work in methods to remove resources
