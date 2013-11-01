@@ -137,9 +137,40 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		return updatedPkg;
 	}
 	
+	public void removePackage(String title) {
+		System.out.printf("Removing package \"%s\" \n", title);
+		client
+		    .target(getCompleteUrl(PACKAGES_URI, title))
+		    .request()
+		    .delete();		
+	}
+	
 	public Asset updateAsset(String packageName, Asset asset) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public Asset createAsset(String packageTitle, byte[] content,
+			String assetName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public Asset updateAssetSource(String pkgName, String assetName,
+			String newSourceCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public Asset createOrUpdateAsset(String packageTitle, Asset asset) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	public void removeAsset(String pkgTitle, String assetName) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	private String getCompleteUrl(String...resourceUri){
@@ -148,33 +179,6 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 			finalUri.path(resourceUri[i]);
 		}
 		return finalUri.build().toString();		
-	}
-	
-	public Asset createAsset(String packageTitle, byte[] content,
-			String assetName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Asset updateAssetSource(String pkgName, String assetName,
-			String newSourceCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Asset createOrUpdateAsset(String packageTitle, Asset asset) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void removePackage(String title) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void removeAsset(String pkgTitle, String assetName) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	private <T> T getEntityFromResponse(Response r, Class<T> clazz){
@@ -194,7 +198,4 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		r.close();
 		return entity;
 	}
-	
-
-	
 }

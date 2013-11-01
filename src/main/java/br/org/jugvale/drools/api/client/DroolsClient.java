@@ -15,7 +15,10 @@ import br.org.jugvale.drools.api.client.service.DroolsAPIService;
 import br.org.jugvale.drools.api.client.service.DroolsAPIServiceImpl;
 
 /**
- * Boilerplate class for the real client. Here we will include validation, authentication and a few more stuff
+ * Boilerplate class for the real client. Here we will include validation, authentication and a few more stuff.
+ * 
+ * The goal of this class is to make easier to move from a REST impl to another kind of impl(new drools doesn't have the same REST API)
+ * 
  * @author william
  *
  */
@@ -92,6 +95,9 @@ public class DroolsClient{
 	
 	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage) {
 		return service.createOrUpdatePackage(droolsPackage);
+	}
+	public void removePackage(String title){
+		service.removePackage(title);
 	}
 	
 	private void createDroolsAPIService() {

@@ -107,6 +107,9 @@ public class DroolsClientTest {
 		newPkg.setDescription(updatedDesc);
 		DroolsPackage updatedPkg = client.createOrUpdate(newPkg);
 		assertEquals(updatedDesc, updatedPkg.getDescription());
+		client.removePackage(title);
+		DroolsPackage shouldBeNull = client.getPackage(title);
+		assertNull(shouldBeNull);
 		
 		// TODO delete package after this test
 	}
