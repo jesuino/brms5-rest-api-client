@@ -113,7 +113,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 						.get(Asset.class);
 	}
 	
-	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage) {
+	public DroolsPackage createOrUpdatePackage(DroolsPackage droolsPackage) {
 		DroolsPackage updatedPkg = null;
 		Entity<DroolsPackage> pkgEntity = Entity.xml(droolsPackage);
 		String pkgTitle = droolsPackage.getTitle();
@@ -137,7 +137,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		return updatedPkg;
 	}
 	
-	public Asset createOrUpdate(Asset asset) {
+	public Asset updateAsset(String packageName, Asset asset) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -148,6 +148,33 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 			finalUri.path(resourceUri[i]);
 		}
 		return finalUri.build().toString();		
+	}
+	
+	public Asset createAsset(String packageTitle, byte[] content,
+			String assetName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Asset updateAssetSource(String pkgName, String assetName,
+			String newSourceCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Asset createOrUpdateAsset(String packageTitle, Asset asset) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void removePackage(String title) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeAsset(String pkgTitle, String assetName) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private <T> T getEntityFromResponse(Response r, Class<T> clazz){
@@ -167,4 +194,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		r.close();
 		return entity;
 	}
+	
+
+	
 }

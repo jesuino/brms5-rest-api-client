@@ -91,7 +91,7 @@ public class DroolsClient{
 	}
 	
 	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage) {
-		return service.createOrUpdate(droolsPackage);
+		return service.createOrUpdatePackage(droolsPackage);
 	}
 	
 	private void createDroolsAPIService() {

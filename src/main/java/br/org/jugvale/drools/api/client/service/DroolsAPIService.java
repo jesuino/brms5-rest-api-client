@@ -9,16 +9,21 @@ import br.org.jugvale.drools.api.client.model.DroolsPackage;
 public interface DroolsAPIService {
 
 	public List<DroolsPackage> getPackages();
-	public DroolsPackage getPackage(String name);	
+	public DroolsPackage getPackage(String title);	
 	public List<Category> getCategories();
 	public Category getCategory(String name);
 	public List<Asset> getAssetsByPackage(DroolsPackage droolsPackage);
 	public List<Asset> getAssetsByCategory(Category category);
     public Asset getAsset(String packageName, String assetName);
 	
-	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage);
-	public Asset createOrUpdate(Asset asset);
+	public DroolsPackage createOrUpdatePackage(DroolsPackage droolsPackage);
+	public Asset createOrUpdateAsset(String packageTitle, Asset asset);
+	public Asset createAsset(String packageTitle, byte[] content, String assetName);
+	public Asset updateAssetSource(String pkgName, String assetName, String newSourceCode);
 	
-	// TODO: Work in methods to remove resources
+	public void removePackage(String title);
+	public void removeAsset(String pkgTitle, String assetName);
+	
+	// TODO: Add good documentation to each interface method
 	
 }
