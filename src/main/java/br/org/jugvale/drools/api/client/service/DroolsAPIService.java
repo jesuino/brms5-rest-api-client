@@ -17,12 +17,17 @@ public interface DroolsAPIService {
     public Asset getAsset(String packageName, String assetName);
 	
 	public DroolsPackage createOrUpdatePackage(DroolsPackage droolsPackage);
-	public Asset createOrUpdateAsset(String packageTitle, Asset asset);
+	
 	public Asset createAsset(String packageTitle, byte[] content, String assetName);
+	public Asset createAsset(String packageTitle, String title, String summary);
+	public Asset updateAsset(String packageTitle, Asset asset);
+
+	
 	public Asset updateAssetSource(String pkgName, String assetName, String newSourceCode);
 	
 	public void removePackage(String title);
 	public void removeAsset(String pkgTitle, String assetName);
+	
 	
 	// TODO: Add good documentation to each interface method
 	

@@ -96,8 +96,18 @@ public class DroolsClient{
 	public DroolsPackage createOrUpdate(DroolsPackage droolsPackage) {
 		return service.createOrUpdatePackage(droolsPackage);
 	}
+	
+	public Asset createOrUpdate(String pkgTitle, String title, String summary) {
+		return service.createAsset(pkgTitle, title, summary);
+	}
 	public void removePackage(String title){
 		service.removePackage(title);
+	}
+	public Asset updateAsset(String pkgTitle, Asset asset) {
+		return service.updateAsset(pkgTitle, asset);
+	}
+	public void removeAsset(String pkgTitle, String assetName) {
+		service.removeAsset(pkgTitle, assetName);
 	}
 	
 	private void createDroolsAPIService() {
@@ -107,4 +117,5 @@ public class DroolsClient{
 		httpClient.getCredentialsProvider().setCredentials(new AuthScope("localhost", 8080), credentials);
 		service  = new DroolsAPIServiceImpl(baseUrl, new ApacheHttpClient4Engine(httpClient));		
 	}
+
 }

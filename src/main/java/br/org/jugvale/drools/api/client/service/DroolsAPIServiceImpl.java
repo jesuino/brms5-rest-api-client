@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
+import org.jboss.resteasy.plugins.providers.atom.Entry;
 import org.jboss.resteasy.client.jaxrs.ClientHttpEngine;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
@@ -24,6 +25,8 @@ import br.org.jugvale.drools.api.client.model.DroolsPackage;
  * 
  */
 public class DroolsAPIServiceImpl implements DroolsAPIService {
+
+
 	// TODO: use logging
 	// TODO: add error handling
 	ResteasyClient client;
@@ -39,7 +42,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	// TODO: can we simplify the final URLs?
 	private final String CATEGORIES_URL;
 	private final String PACKAGES_URL;
-	
+
 	private String baseUrl;
 
 	public DroolsAPIServiceImpl(String baseUrl,
@@ -50,6 +53,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		// initializing URL fields
 		 CATEGORIES_URL = getCompleteUrl(CATEGORIES_URI);
 		 PACKAGES_URL= getCompleteUrl(PACKAGES_URI);
+		
 	}
 
 	public List<DroolsPackage> getPackages() {
@@ -106,11 +110,12 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 
 	public Asset getAsset(String packageName, String assetName) {
 		String url = getCompleteUrl(PACKAGES_URI, packageName,  ASSETS_URI, assetName);
-				System.out.printf("Retrieving asset \"%s\" of package \"%s\", from uri %s\n",assetName, packageName, url);
-				return client
+		System.out.printf("Retrieving asset \"%s\" of package \"%s\", from uri %s\n",assetName, packageName, url);
+		Response r = client
 						.target(url)
 						.request(MEDIA_TYPE)
-						.get(Asset.class);
+						.buildGet().invoke();
+		return getEntityFromResponse(r,Asset.class);
 	}
 	
 	public DroolsPackage createOrUpdatePackage(DroolsPackage droolsPackage) {
@@ -135,6 +140,41 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 					.post(pkgEntity).readEntity(DroolsPackage.class);
 		}
 		return updatedPkg;
+	}	
+	public Asset createAsset(String packageTitle, String title, String summary) {
+		// Basic stuff to create an Asset
+		Entry entry = new Entry();
+		entry.setTitle(title);
+		entry.setSummary(summary);        
+        Entity<Entry> entryEntity = Entity.entity(entry, MediaType.APPLICATION_ATOM_XML);
+		String url = getCompleteUrl(PACKAGES_URI, packageTitle, ASSETS_URI);
+		Response r = client
+			.target(url)
+			.request(MediaType.APPLICATION_ATOM_XML)
+			.post(entryEntity);
+		System.out.println("response code: " + r.getStatus());
+		r.close();
+		return getAsset(packageTitle, title);
+	}
+	
+	public Asset updateAsset(String packageTitle, Asset asset) {
+		String title = asset.getMetadata().getTitle();
+		String url = getCompleteUrl(PACKAGES_URI, packageTitle, ASSETS_URI, title);
+		System.out.println(url);
+		Asset updateAsset = null;	
+		Entity<Asset> assetXmlEntity = Entity.xml(asset);
+		Response r = 
+		     client
+				.target(url)
+				.request(MediaType.APPLICATION_XML)
+				.accept(MEDIA_TYPE)
+				.put(assetXmlEntity);
+		// TODO: deal with errors
+		if(r.getStatus() == 204){
+			updateAsset = getAsset(packageTitle, title);
+		}
+		r.close();
+		return	updateAsset;
 	}
 	
 	public void removePackage(String title) {
@@ -144,10 +184,12 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		    .request()
 		    .delete();		
 	}
-	
-	public Asset updateAsset(String packageName, Asset asset) {
-		// TODO Auto-generated method stub
-		return null;
+	public void removeAsset(String pkgTitle, String assetName) {
+		System.out.printf("Removing asset \"%s\" from package \"%s\" \n", assetName, pkgTitle);
+		client
+		    .target(getCompleteUrl(PACKAGES_URI, pkgTitle, ASSETS_URI, assetName))
+		    .request()
+		    .delete();			
 	}
 	
 	public Asset createAsset(String packageTitle, byte[] content,
@@ -162,16 +204,6 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		return null;
 	}
 	
-	public Asset createOrUpdateAsset(String packageTitle, Asset asset) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	public void removeAsset(String pkgTitle, String assetName) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	private String getCompleteUrl(String...resourceUri){
 		UriBuilder finalUri = UriBuilder.fromPath(baseUrl).path(REST_CONTEXT);		
