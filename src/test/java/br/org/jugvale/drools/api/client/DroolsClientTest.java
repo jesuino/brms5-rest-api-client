@@ -27,7 +27,7 @@ public class DroolsClientTest {
 	}
 
 	// TODO: Improve tests
-/*
+
 	@Test
 	public void testPackage() {
 		DroolsPackage pkg = client.getPackage(PKG_TITLE);
@@ -92,10 +92,11 @@ public class DroolsClientTest {
 			System.out.println(asset);
 		}
 	}
-	
+
 	@Test
-	public void testPackageManipulation(){
-		System.out.println("----- Adding, updating and deleting a package -----");
+	public void testPackageManipulation() {
+		System.out
+				.println("----- Adding, updating and deleting a package -----");
 		String title = "my_test_package";
 		String newDesc = "Just testing packages adition";
 		String updatedDesc = "Updated description";
@@ -110,14 +111,15 @@ public class DroolsClientTest {
 		client.removePackage(title);
 		DroolsPackage shouldBeNull = client.getPackage(title);
 		assertNull(shouldBeNull);
-	}*/
-	
-	
+	}
+
 	@Test
-	public void testAssetManipulation(){
-		System.out.println("----- Adding, updating and deleting an Asset -----");
+	public void testAssetManipulation() {
+		System.out
+				.println("----- Adding, updating and deleting an Asset -----");
 		String pkgTitle = "testing";
 		DroolsPackage pkg = new DroolsPackage();
+		String source = "# meaningless source as a comment";
 		pkg.setTitle(pkgTitle);
 		pkg.setDescription("a description");
 		String assetName = "assetName";
@@ -125,17 +127,22 @@ public class DroolsClientTest {
 		// create a package for our tests
 		client.createOrUpdate(pkg);
 		System.out.println("Creating asset");
-		Asset createdAsset = client.createOrUpdate(pkgTitle, assetName, "no need for summary");
+		Asset createdAsset = client.createOrUpdate(pkgTitle, assetName,
+				"no need for summary");
 		assertEquals(assetName, createdAsset.getMetadata().getTitle());
 		createdAsset.setDescription(updatedDescription);
-	    System.out.println("Updating asset");
+		System.out.println("Updating asset");
 		Asset updatedAsset = client.updateAsset(pkgTitle, createdAsset);
 		assertEquals(updatedDescription, updatedAsset.getDescription());
-		
+		System.out.println("Updating asset source code");
+		String updatedSource  = client.updateAssetSource(pkgTitle, assetName, source);
+		assertEquals(source, updatedSource);
 		// now we will remove the things we created
 		client.removeAsset(pkgTitle, assetName);
 		// we make sure we removed the asset
 		assertNull(client.getAsset(pkgTitle, assetName));
 		// now we remove the test package :)
-		client.removePackage(pkgTitle);}
+		client.removePackage(pkgTitle);
+	}
+	
 }

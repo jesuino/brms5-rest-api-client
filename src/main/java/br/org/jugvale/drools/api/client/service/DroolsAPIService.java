@@ -23,7 +23,8 @@ public interface DroolsAPIService {
 	public Asset updateAsset(String packageTitle, Asset asset);
 
 	
-	public Asset updateAssetSource(String pkgName, String assetName, String newSourceCode);
+	public String updateAssetSource(String pkgName, String assetName, String newSourceCode);
+	public String getSourceCode(String pkgTitle, String assetName);
 	
 	public void removePackage(String title);
 	public void removeAsset(String pkgTitle, String assetName);

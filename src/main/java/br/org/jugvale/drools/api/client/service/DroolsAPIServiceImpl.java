@@ -38,6 +38,7 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 	private final String PACKAGES_URI = "packages";
 	private final String CATEGORIES_URI = "categories";
 	private final String ASSETS_URI = "assets";
+	private static String ASSET_SOURCE_URI = "source";
 	
 	// TODO: can we simplify the final URLs?
 	private final String CATEGORIES_URL;
@@ -198,12 +199,25 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 		return null;
 	}
 	
-	public Asset updateAssetSource(String pkgName, String assetName,
+	public String updateAssetSource(String pkgTitle, String assetName,
 			String newSourceCode) {
-		// TODO Auto-generated method stub
-		return null;
+		Entity<String> sourceEntity = Entity.xml(newSourceCode);
+		Response r = client
+			.target(getCompleteUrl(PACKAGES_URI, pkgTitle, ASSETS_URI, assetName, ASSET_SOURCE_URI))
+			.request(MEDIA_TYPE)
+			.put(sourceEntity);
+		return getSourceCode(pkgTitle, assetName);
 	}
-	
+	//TODO: Test this method
+	public String getSourceCode(String pkgTitle, String assetName){
+		String url = getCompleteUrl(PACKAGES_URI, pkgTitle, ASSETS_URI, assetName, ASSET_SOURCE_URI);
+			Response r = client
+					.target(url)
+					.request()
+					.accept(MediaType.TEXT_PLAIN)
+					.get();	
+		return getEntityFromResponse(r, String.class);
+	}	
 	
 	private String getCompleteUrl(String...resourceUri){
 		UriBuilder finalUri = UriBuilder.fromPath(baseUrl).path(REST_CONTEXT);		
@@ -215,12 +229,13 @@ public class DroolsAPIServiceImpl implements DroolsAPIService {
 
 	private <T> T getEntityFromResponse(Response r, Class<T> clazz){
 		int responseCode = r.getStatus();
+		System.out.println(responseCode);
 		T entity;
 		switch (responseCode) {
 			case 404:
 				entity =  null;
 				break;
-			case 200:
+			case 200: case 204:
 				entity =  r.readEntity(clazz);	
 				break;
 			default:
