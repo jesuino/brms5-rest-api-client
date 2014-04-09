@@ -1,53 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>br.org.jugvale.brms5.api.client</groupId>
-	<artifactId>brms5-rest-api-client</artifactId>
-	<version>0.0.1</version>
-	<name>BRMS5 REST Client API Wrapper</name>
-	<description>A wrapper for the rest API available for BRMS5</description>
-
-	<repositories>
-		<repository>
-			<id>jboss</id>
-			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
-		</repository>
-	</repositories>
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.10</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>3.0.4.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-client</artifactId>
-			<version>3.0.4.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxb-provider</artifactId>
-			<version>3.0.4.Final</version>
-		</dependency>
-				<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-atom-provider</artifactId>
-			<version>3.0.4.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>3.0.4.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.5</version>
-		</dependency>
-	</dependencies>
+	<groupId>org.jugvale.brms.client</groupId>
+	<artifactId>brms5-client</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<name>BRMS REST Wrapper and a JavaFX Client</name>
+	<description>A REST wrapper for the BRMS5 REST API and a JavaFX App</description>
+	<modules>
+		<module>brms-rest-client</module>
+		<module>brms-javafx-client</module>
+	</modules>
 </project>
